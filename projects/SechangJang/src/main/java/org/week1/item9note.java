@@ -1,0 +1,68 @@
+
+Exception 시 Stack trace에 어려움이 있음
+
+static void copy(String src, String dst) throws IOException {
+    InputStream in = new FileInputStream(src);
+    try {
+        OutputStream out = new FileOutputStream(src);
+        try {
+            byte[] buf = new byte[100];
+            int n;
+            while ((n = in.read(buf)) >= 0) {
+                out.write(buf, 0, n);
+            }
+        } finally {
+            out.close();
+        }
+    } finally {
+        in.close();
+    }
+}
+
+while 내부 read에서 발생된 에러 -> finally 로 이동하는데 out.close() 도 똑같이 실패했다면 in.close()로 가는데
+    내부 read의 에러가 close() 로 override 되듯 덮어씌워졌다는 문제 발생 -> 에러 현상 파악하기 어려워짐
+
+Try-with-resources
+public class Resource implements AutoCloseable {
+    @Override
+    public void close() throws Exception {
+        throw new Exception("inside Resource exception");
+    }
+}
+
+try( Resource r1 = new Resource();
+    Resource r2 = new Resource(); ){
+        throw new Exception("test");
+}
+
+try를 통해 실행되고 끝나면 close() 를 통해 Exception이 실행되도록 유도함 throw new Exception 으로 catch 받을 경우
+stack trace에 맞게 에러 잘 출력해주는 것 볼 수 있음 (자바7 이후부턴 try-with 추천함 다만 try-catch 와는 다르니 혼동 유의)
+
+
+자바 8 부터 다루는 cleaner를 살펴보자.
+
+public class CleanObject implements AutoCloseable {
+    private static final Cleaner cleaner = Cleaner.create();
+    private static class CleanData implements Runnable {
+    }
+    @Override
+    public void run() {
+    }
+
+    // clean
+    private final CleanData cleanData;
+    private final Cleaner.Cleanable cleanable;
+    public CleanObject() {
+        this.cleanData = new CleanData();
+        this.cleanable = cleaner.register(this,cleanData);
+    }
+    @Override
+    public void close() {
+        cleanable.clean();
+    }
+}
+
+final 역할 하는게 cleaner 이고 cleaner가 실패해도 autocloseable의 메소드인 close 로 인해 다뤄짐
+    = clean이 실패해서 gc의 기회가 없어져도 autocloseable을 통해 이를 보완한다. [이전에 봤던 이중 거름망 패턴]
+
+결론 : Finally가 필요한 상황이라면 try-with-resource를 사용하자. // 강사는 실무에선 그닥 잘 쓰인다고 했지만 그래도 알아만 두면 좋다 언급.

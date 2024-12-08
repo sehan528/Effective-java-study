@@ -1,0 +1,100 @@
+package org.example;
+
+public class Main {
+    public static void main(String[] args) {
+
+        System.out.println("Hello world!");
+
+
+// 예제 클래스
+        public class Laptop {
+            private String model;
+            private String company;
+        }
+
+// Constructor
+public Laptop(Stirng modelName, String company) {
+            this.modelName = modelName;
+            this.company = company;
+        }
+
+// Static Factory Method
+        public static Laptop ofModelNameAndCompany (String modelName, String company){
+            Laptop laptop = new Laptop();
+            laptop.company = company;
+            laptop.model = modelName;
+            return laptop;
+        }
+
+        Q.from과 of 를 사용하는 기준 ?
+                책의 경우 parameter 하나는 from 으로 여러개는 of로 사용함을 권장하고 있다.(be made of, be made from)
+        만든것의 재료를 볼 수 없다면 from 있으면 of 를 사용한다.(어학적 의미 기준)
+=>하나를 그대로 가져와 convert 하는 경우 = 객체를 파라미터로 받았을 시 객체의 내부를 볼 수 없음 = from
+        파라미터로 model, company 를 명시적으로 받아 새로운 Object instance를 만드는 경우 = 명확하게 재료를 알 수 있다 = of
+
+        Q.왜 이렇게 구분하는가 ? Lombok의 allargsconstructor 사용하면 쉽게 할 수 있을텐데?굳이 스테틱 메서드를 사용하는 이유 ?
+->MVC 패턴에서 Post 요청을 통해 데이터 받아오는 경우
+
+        API request example with LaptopForm
+
+        public class LaptopForm {
+            private String name;
+            private String corp; // company 였는데 여기선 corp로 바뀌어 있음을 명시.
+        }
+
+        @PostMapping(value = "/add")
+        public LaptopDto addLapTop (@RequestBody LaptopForm laptopForm){
+            // 생략
+        }
+
+        정보 추가를 위해 API 작성 하는 경우 REST API를 통해 받아오게 될 것.이를 Form 으로 받아와 저장하여 DTO로 Response 하는 경우.
+                ex)API를 다루는 메소드의 경우, from 을 붙여 '이것은 밖에서 받아오는 데이터이다.' 를 명시적으로 알 수 있게 한다.
+        DTO는 실제 API res 를 DTO로 많이 명시함.(전부 다 VO로 표시하는 등 다양한 경우가 있을 것.)
+
+//Laptop 으로 convert!
+        public class Laptop {
+            private Long id;
+            private String modelName;
+            private String company;
+
+            public static Laptop from(LaptopForm laptopForm) {
+                Laptop laptop = new Laptop();
+                laptop.modelName = laptopForm.getModelName();
+                laptop.company = laptopForm.getCompany();
+                return laptop;
+            }
+        }
+        2. 호출될 때마다 인스턴스를 새로 생성하지 않아도 된다.
+                여러 클래스를 통해 데이터를 받아올 때 LaptopForm의 corp와 Laptop의 company 처럼 같은 데이터를 받더라도 항상 동일하지 않을 수 있다
+        post로 들어온 값을 Laptop entity에 넣어 JPA을 통해 전달 할 경우 만약 LaptopForm에 하나 하나 getname, getcorp ...일일이 추가하여 인스턴스를 만들기엔
+        비효율적일 수 있다.
+                매 요청마다 엔티티 생성하여 전달하는 경우, 그 엔티티의 가짓수가 많아지면 많아질수록 필요하지 않더라도 서비스에서 Laptop 엔티티 그간 생성했던것들을
+        줄줄이 달고 나올 수 밖에 없기에 비효율적 이다.
+
+        Laptop from 을 통해 실제 컨버팅 하는 곳에서 파라매터인(LaptopForm laptopForm) 을 통해 한 줄로 해당 요청을 바로 처리 가능.
+
+                of 사용해야될 경우?
+        해당 폼에 만약 type 이나 price 같은 별도의 테이블에 들어가야할 데이터가 생긴 경우...
+
+
+        반대로 API 통해 받은 값 뿐만 아니라 Entity를 다시 DTO로 반환하는 경우 유용하다.
+                JSON mapping 제외, 어노테이션 등을 사용하는 방법도 있다.그래도 명시적으로 구분해두는것이 좋음.
+        필요하지 않은 엔티티 요소를 제거 & DTO 생성 동시에.
+
+        public class LaptopDto {
+            // 자연스럽게 id라는 속성이 사라졌음을 볼 수 있다.
+            private String modelName;
+            private String companyName;
+
+            public static LaptopDto from(Laptop laptop) {
+                LaptopDto laptopDto = new LaptopDto();
+                laptopDto.company = laptop.getCompany();
+                laptopDto.modelName = laptop.getModelName();
+                return laptopDto;
+            }
+        }
+
+    }
+}
+
+
