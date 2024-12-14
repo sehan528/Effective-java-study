@@ -1,3 +1,4 @@
+package org.week1.note;
 
 Exception 시 Stack trace에 어려움이 있음
 

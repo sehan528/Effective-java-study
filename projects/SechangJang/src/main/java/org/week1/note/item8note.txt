@@ -1,3 +1,4 @@
+package org.week1.note;
 java는 객체에 대한 소멸자를 제공한다.
 
 Finalizer 언제 써야할까?

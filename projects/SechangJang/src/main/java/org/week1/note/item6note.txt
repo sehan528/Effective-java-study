@@ -1,3 +1,4 @@
+package org.week1.note;
 Boxing type 대신 Primitive type을 권장한다.
 
 public static long sum() {

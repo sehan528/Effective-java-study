@@ -1,3 +1,4 @@
+package org.week1.note;
 객체의 인스턴스 생성 상황과 의미 다시생각
         특정 메서드 실행 Method Area를 부르게 됨 특정 타입 변수 선언 시 Method Area의 Stack에 적용되고
         그 객체가 인스턴스를 생성한다면 Stack이아니라 Heap 영역에 할당되게 됩니다 (new, newarray )

@@ -1,4 +1,4 @@
-package org.example;
+package org.week1.note;
 
 public class Main {
     public static void main(String[] args) {
