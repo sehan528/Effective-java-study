@@ -17,15 +17,14 @@
 ## `hashCode`와 `equals`에 관련된 문제 예시
 
 ### 예시 코드:
-
 ```java
 Map<PhoneNumber, String> m = new HashMap<>();
 m.put(new PhoneNumber((short) 707, (short) 867, (short) 5309), "제니");
 //hashCode 를 재정의 하지 않아 다른 객체로 판단
 System.out.println(m.get(new PhoneNumber((short) 707, (short) 867, (short) 5309)));
 ```
-## 전형적인 hashCode 작성 예시
 
+## 전형적인 hashCode 작성 예시
 ```java
 @Override
 public int hashCode() {
@@ -63,5 +62,4 @@ public int hashCode() {
     }
     return result;
 }
-
 ```

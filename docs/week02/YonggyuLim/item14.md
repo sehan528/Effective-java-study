@@ -56,6 +56,7 @@ private static final Comparator<PhoneNumber> COMPARATOR =
  int x = Integer.MAX_VALUE; // 2,147,483,647
  int y = Integer.MIN_VALUE; // -2,147,483,648
  int diff = x - y; // 4,294,967,295 (이 값은 int 범위를 초과)
+
 ```java
     static Comparator<Object> hashCodeOrder = new Comparator<Object>() {
         @Override
