@@ -8,6 +8,7 @@
 - `디폴트 메서드`를 재정의 하지않을경우 하위 클래스에서 문제 발생할 수 있으니 차라리 하위클래스에서 재정의하게 `Objects 메서드`들을 `디폴트 메서드`로 제공하지 않는게 좋음
 ```java
 public class ex {
+    //골격 구현을 상속받아서 사용하는 구체 클래스 골격 구현 클래스에서 추상메서드로 선언된 메서드들을 구현
     //필요한 메서드만 구현하기 위해 사용
     static List<Integer> intArrayAsList(int[] a) {
         Objects.requireNonNull(a);
@@ -35,12 +36,11 @@ public class ex {
 ```
 
 - 골격 구현 클래스
-- 
 ```java
-package chapter4.item20.ex2;
-
-import java.util.Map;
-import java.util.Objects;
+//골격 구현 클래스는 인터페이스를 구현하는 추상클래스
+//인터페이스를 구현하면 보통 모든 메서드를 구현해야 하지만 추상 클래스는 아님
+//구현하지 않으면 추상 메서드로 남겨서 상속받은 클래스에서 반드시 구현해야함
+//물론 추상 메서드가 아니어도 구체 클래스에서 재정의 할 수 있음
 
 public abstract class AbstractMapEntry<K, V> implements Map.Entry<K, V> {
     //추상 클래스라 Objects 메서드 재정의 가능
