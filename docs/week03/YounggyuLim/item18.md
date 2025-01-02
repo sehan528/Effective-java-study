@@ -43,6 +43,7 @@ public class InstrumentedHashSet<E> extends HashSet<E> {
 ## 컴포지션 : 기존 클래스가 새로운 클래스의 구성요소로 사용되는것
 - 컴포지션을 활용하여 동적으로 기능을 추가하는 설계 패턴을 데코레이터 패턴이라함
 - 아래 예시는 데코레이터 패턴으로 Set의 기능을 확장하면서 기존 구현에 의존하지 않음
+
 ```java
 //ForwardingSet 에 상속이 아닌 위임 즉 HashSet의 메서드만 호출해서 중복호출 할 일 없음
 public class InstrumentedSet<E> extends ForwardingSet<E>{
@@ -79,7 +80,6 @@ public class InstrumentedSet<E> extends ForwardingSet<E>{
         }
     }
 }
-
 ```
 
 ## 요약

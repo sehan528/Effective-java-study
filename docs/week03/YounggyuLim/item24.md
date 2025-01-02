@@ -5,7 +5,6 @@
 - 아래 예시는 비정적 멤버 클래스 --> 주로 자신의 반복자를 구현할때 사용 (대부분의 반복자는 외부 클래스의 데이터를 받아 들여야 하니까)
 ```java
 public class MySet <E> extends AbstractSet<E> {
-    
     @Override
     public Iterator<E> iterator() {
         return new MyIterator();
