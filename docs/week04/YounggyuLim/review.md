@@ -7,12 +7,13 @@
 ```java
 @Getter
 @Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class FriendInfoDto {
-    private String friendCode;
-    private String nickname;
-    private String profileImageUrl;
-    private String backgroundImageUrl;
-    private String bio;
+    private final String friendCode;
+    private final String nickname;
+    private final String profileImageUrl;
+    private final String backgroundImageUrl;
+    private final String bio;
 
     public static FriendInfoDto fromMember(Member member) {
         return FriendInfoDto.builder()
@@ -23,8 +24,8 @@ public class FriendInfoDto {
                 .bio(member.getBio())
                 .build();
     }
-
 }
+
 ```
 
 - 클래스와 멤버의 접근 권한을 최소화 하는 예시
