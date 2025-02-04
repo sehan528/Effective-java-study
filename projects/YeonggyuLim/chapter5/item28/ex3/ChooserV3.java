@@ -1,0 +1,23 @@
+package chapter5.item28.ex3;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+
+public class ChooserV3<T> {
+    private final List<T> choiceList;
+
+
+    //제네릭 리스트는 애초에 컴파일전에 타입이 다를경우 컴파일 에러가 나서
+    //제네릭 타입이 소거된 이후에도 내부 타입으로 문제가 생길 일이 없음
+    public ChooserV3(Collection<T> choices) {
+        choiceList = new ArrayList<>(choices);
+    }
+
+    public T choose() {
+        Random rnd = ThreadLocalRandom.current();
+        return choiceList.get(rnd.nextInt(choiceList.size()));
+    }
+}

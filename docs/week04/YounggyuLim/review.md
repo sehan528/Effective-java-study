@@ -31,6 +31,7 @@ public class FriendInfoDto {
 
 1. 상수 필드인 액세스토큰, 리프레시 토큰의 만료일을 제외하곤 private 필드만 갖음
 2. public 클래스는 상수 필드 외엔 어떠한 public 도 갖지 않아야 함
+
 ```java
 public class JwtTokenizer {
     private final byte[] accessSecret;
@@ -240,8 +241,7 @@ public class MemberService {
         member.updateBio(bio);
         memberRepository.save(member);
     }
-
-
+    
 }
 ```
 

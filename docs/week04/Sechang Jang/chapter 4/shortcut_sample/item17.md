@@ -178,4 +178,4 @@ public class AnotherBadExample {
 - **Do**: 필드는 `private final`로 선언.  
 - **Do**: 가변 객체는 방어적 복사.  
 - **Don’t**: setter로 필드를 변경 가능하게 만들지 말 것.  
-- **Don’t**: public 필드를 그대로 노출하지 말 것.  
+- **Don’t**: public 필드를 그대로 노출하지 말 것.
