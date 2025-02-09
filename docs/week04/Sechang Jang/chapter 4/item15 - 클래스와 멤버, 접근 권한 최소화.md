@@ -32,11 +32,31 @@ class Helper { ... }            // 도우미 클래스 (같은 패키지에서�
 - package-private 클래스: 패키지 내부 구현에 속함, 다음 릴리스에서 수정/제거/교체 가능
 - 한 클래스에서만 사용하는 package-private 클래스는 private static으로 중첩 고려
 
+**package-private**:
+1. 클래스 선언 시 접근 제어자를 명시하지 않은 클래스입니다.
+2. 같은 패키지 내의 다른 클래스에서만 접근할 수 있습니다.
+3. 패키지 외부에서는 접근할 수 없습니다.
+
+```java
+class PackagePrivateClass {
+    // 접근 제어자가 없음
+}
+
+
+public class OuterClass {
+    private class PrivateInnerClass {
+        // 중첩 클래스(nested class)의 한 형태 , 외부 클래스 내부에서만 접근 가능 
+        // 같은 패키지의 다른 클래스에서도 접근할 수 없습니다.
+    }
+}
+```
+두 개념은 접근 범위와 사용 목적이 다르므로 혼동하지 않도록 주의해야 합니다.
+
 #### 멤버 (필드, 메서드, 중첩 클래스/인터페이스) 수준
 ```java
 public class MemberExample {
     private int privateField;           // 클래스 내부에서만 접근
-    int packagePrivateField;           // 같은 패키지 내에서 접근
+    int packagePrivateField;           // 같은 패키지 내에서 접근. this is package-private.
     protected int protectedField;      // 하위 클래스에서도 접근
     public int publicField;            // 모든 곳에서 접근
 
